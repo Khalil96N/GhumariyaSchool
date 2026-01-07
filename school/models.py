@@ -69,12 +69,12 @@ class Scholar(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=200, verbose_name="عنوان الكتاب")
-    author = models.CharField(max_length=200, verbose_name="المؤلف")
+    author = models.CharField(max_length=200, verbose_name="المؤلف", default="مؤلف غير معروف")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, verbose_name="التصنيف")
-    description = models.TextField(verbose_name="وصف الكتاب")
-    file = models.FileField(upload_to='books/', verbose_name="ملف الكتاب (PDF)")
+    description = models.TextField(verbose_name="وصف الكتاب", default="لا يوجد وصف")
+    file = models.FileField(upload_to='books/', verbose_name="ملف الكتاب (PDF)", default="default.pdf")
     cover_image = models.ImageField(upload_to='covers/', verbose_name="صورة الغلاف", null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         verbose_name = "كتاب"
