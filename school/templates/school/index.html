@@ -1,0 +1,278 @@
+{% extends 'school/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative py-32 px-4 sm:px-6 lg:px-8 text-center overflow-hidden">
+    <!-- Background Glow Effect -->
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-matte-gold/5 rounded-full blur-3xl -z-10">
+    </div>
+
+    <div class="max-w-5xl mx-auto animate-fade-in-up">
+        <h1
+            class="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-matte-gold mb-8 leading-tight drop-shadow-lg">
+            المدرسة الغمارية <br> <span class="text-white">لإحياء العلوم</span>
+        </h1>
+        <p
+            class="text-xl sm:text-2xl text-gray-400 max-w-2xl mx-auto font-light mb-12 border-t border-b border-white/10 py-6">
+            أصالة المنهج <span class="text-matte-gold mx-2">♦</span> معاصرة التلقي
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-6">
+            <a href="{% url 'books_list' %}"
+                class="font-heading px-10 py-4 bg-matte-gold text-dark-black rounded-sm text-lg font-bold hover:bg-light-gold transition-all shadow-lg hover:shadow-gold-glow flex items-center justify-center gap-2">
+                <span>تصفح الكتب</span>
+                <svg class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+            <a href="{% url 'lessons_list' %}"
+                class="font-heading px-10 py-4 bg-transparent text-matte-gold border border-matte-gold rounded-sm text-lg font-semibold hover:bg-matte-gold hover:text-dark-black transition-all flex items-center justify-center">
+                شاهد الدروس
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Content Grid -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- Books Section -->
+    <div class="mb-24">
+        <div class="flex items-center justify-between mb-12 border-b border-white/10 pb-4">
+            <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                <span class="w-2 h-8 bg-matte-gold rounded-full"></span>
+                <span>أحدث الكتب</span>
+            </h2>
+            <a href="{% url 'books_list' %}"
+                class="text-matte-gold hover:text-light-gold transition-colors font-medium">عرض المكتبة
+                كاملة</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for book in books %}
+            <div
+                class="bg-dark-black rounded-lg border border-matte-gold/40 hover:border-matte-gold transition-all duration-300 group flex flex-col h-full relative overflow-hidden hover:-translate-y-2 hover:shadow-gold-glow">
+
+                <div class="h-64 bg-[#1a1a1a] flex items-center justify-center text-gray-600 relative overflow-hidden">
+                    {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" alt="{{ book.title }}"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    {% else %}
+                    <!-- Fallback Icon -->
+                    <svg class="w-20 h-20 text-gray-700 group-hover:text-matte-gold transition-colors duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                    {% endif %}
+
+                    <div
+                        class="absolute top-4 right-4 bg-matte-gold text-dark-black text-xs font-bold px-3 py-1 rounded-sm shadow-lg">
+                        {{ book.category.name }}
+                    </div>
+                </div>
+
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3
+                        class="font-heading text-xl font-bold text-gray-100 mb-2 line-clamp-2 leading-relaxed group-hover:text-matte-gold transition-colors">
+                        {{ book.title }}</h3>
+
+                    <p class="text-gray-500 text-sm mb-4 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-matte-gold"></span>
+                        <span class="text-gray-300">{{ book.author }}</span>
+                    </p>
+
+                    <p class="text-gray-400 text-sm line-clamp-3 mb-6 font-amiri leading-relaxed">
+                        {{ book.description }}
+                    </p>
+
+                    <div class="mt-auto">
+                        {% if book.file %}
+                        <a href="{{ book.file.url }}"
+                            class="block w-full text-center bg-matte-gold text-dark-black font-bold py-3 rounded-sm hover:bg-light-gold transition-colors shadow-lg"
+                            target="_blank">
+                            تحميل الكتاب
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-16 text-gray-600 border border-white/5 rounded-lg bg-white/5">
+                <p class="text-xl">لا توجد كتب مضافة حالياً.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Lessons Section -->
+    <div>
+        <div class="flex items-center justify-between mb-12 border-b border-white/10 pb-4">
+            <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                <span class="w-2 h-8 bg-matte-gold rounded-full"></span>
+                <span>أحدث الدروس</span>
+            </h2>
+            <a href="{% url 'lessons_list' %}"
+                class="text-matte-gold hover:text-light-gold transition-colors font-medium">عرض جميع الدروس</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for lesson in lessons %}
+            <div
+                class="bg-dark-black rounded-lg border border-white/10 hover:border-matte-gold/50 transition-colors duration-300 group overflow-hidden">
+                <div class="relative h-56 bg-black">
+                    <!-- Video Thumbnail -->
+                    <img src="https://img.youtube.com/vi/{{ lesson.video_id }}/mqdefault.jpg"
+                        onerror="this.src='https://via.placeholder.com/640x360?text=Video+Lesson'"
+                        class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+
+                    <!-- Play Button Overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div
+                            class="w-16 h-16 bg-matte-gold/90 rounded-full flex items-center justify-center pl-1 group-hover:scale-110 group-hover:bg-light-gold transition-all shadow-gold-glow cursor-pointer">
+                            <svg class="w-8 h-8 text-dark-black" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full overflow-hidden border border-matte-gold/30">
+                            {% if lesson.scholar.image %}
+                            <img src="{{ lesson.scholar.image.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                            <div
+                                class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500 text-xs">
+                                ش</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <p class="text-xs text-matte-gold mb-0.5">الشيخ المحاضر</p>
+                            <span class="text-sm font-semibold text-gray-300">{{ lesson.scholar.name }}</span>
+                        </div>
+                    </div>
+                    <h3
+                        class="font-heading text-lg font-bold text-white mb-2 line-clamp-2 leading-relaxed group-hover:text-matte-gold transition-colors">
+                        <a href="{{ lesson.video_url }}" target="_blank" class="hover:underline">{{ lesson.title }}</a>
+                    </h3>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-16 text-gray-600 border border-white/5 rounded-lg bg-white/5">
+                <p class="text-xl">لا توجد دروس مضافة حالياً.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Our Branches Section -->
+    <div class="mt-24">
+        <div class="flex items-center justify-between mb-12 border-b border-white/10 pb-4">
+            <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                <span class="w-2 h-8 bg-matte-gold rounded-full"></span>
+                <span>فروعنا حول العالم</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for branch in branches %}
+            <div class="relative group">
+                <!-- Glow Effect -->
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-matte-gold to-light-gold rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200">
+                </div>
+
+                <!-- Card -->
+                <div
+                    class="relative bg-dark-black rounded-lg border-2 border-matte-gold/40 overflow-hidden hover:border-matte-gold transition-all duration-300">
+                    <!-- Branch Image -->
+                    <div class="h-48 bg-gradient-to-br from-matte-gold/20 to-dark-black relative overflow-hidden">
+                        {% if branch.image %}
+                        <img src="{{ branch.image.url }}" alt="{{ branch.country }}"
+                            class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity">
+                        {% else %}
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="w-20 h-20 text-matte-gold/30" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        {% endif %}
+                        <!-- Country Badge -->
+                        <div
+                            class="absolute top-4 right-4 bg-matte-gold text-dark-black px-4 py-2 rounded-sm font-bold text-lg shadow-lg">
+                            {{ branch.country }}
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="font-heading text-2xl font-bold text-matte-gold mb-2 flex items-center gap-2">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            {{ branch.city }}
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4 flex items-start gap-2">
+                            <svg class="w-4 h-4 mt-1 flex-shrink-0" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            </svg>
+                            <span>{{ branch.address }}</span>
+                        </p>
+                        <p class="text-gray-300 font-amiri leading-relaxed text-justify">{{ branch.bio }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-16 text-gray-600 border border-white/5 rounded-lg bg-white/5">
+                <p class="text-xl font-amiri">لا توجد فروع مضافة حالياً.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Facebook Plugin Section -->
+    <div class="mt-24">
+        <div class="flex items-center justify-between mb-12 border-b border-white/10 pb-4">
+            <h2 class="font-heading text-3xl font-bold text-white flex items-center gap-3">
+                <span class="w-2 h-8 bg-matte-gold rounded-full"></span>
+                <span>أحدث نشاطاتنا على فيسبوك</span>
+            </h2>
+            <a href="https://www.facebook.com/profile.php?id=100063163453272" target="_blank"
+                class="text-matte-gold hover:text-light-gold transition-colors font-medium">تابعنا على فيسبوك</a>
+        </div>
+
+        <div class="flex justify-center">
+            <div
+                class="w-full max-w-[500px] bg-dark-black p-4 rounded-lg border border-matte-gold/30 shadow-gold-glow overflow-hidden">
+                <!-- Facebook SDK -->
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous"
+                    src="https://connect.facebook.net/ar_AR/sdk.js#xfbml=1&version=v21.0"></script>
+
+                <!-- Facebook Page Plugin -->
+                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=100063163453272"
+                    data-tabs="timeline,events" data-width="500" data-small-header="false"
+                    data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <blockquote cite="https://www.facebook.com/profile.php?id=100063163453272"
+                        class="fb-xfbml-parse-ignore">
+                        <a href="https://www.facebook.com/profile.php?id=100063163453272">المدرسة الغمارية لإحياء
+                            العلوم</a>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'school/base.html' %}
+
+{% block content %}
+<section class="relative min-h-[80vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <!-- Top Gold Gradient -->
+    <div
+        class="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-matte-gold/10 to-transparent pointer-events-none">
+    </div>
+
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+
+        <!-- Right: School Logo Section -->
+        <div class="lg:w-1/2 flex justify-center lg:justify-end animate-fade-in-right">
+            <div class="relative group">
+                <div
+                    class="absolute -inset-1 bg-matte-gold rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200">
+                </div>
+                <div
+                    class="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full border-4 border-matte-gold p-4 bg-royal-black flex items-center justify-center overflow-hidden shadow-2xl">
+                    {% load static %}
+                    {% if about.logo %}
+                    <img src="{{ about.logo.url }}" alt="شعار المدرسة الغمارية"
+                        class="w-full h-full object-cover rounded-full">
+                    {% else %}
+                    <img src="{% static 'school/img/logo.jpg' %}" alt="شعار المدرسة الغمارية"
+                        class="w-full h-full object-cover rounded-full">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Left: Text Content Section -->
+        <div class="lg:w-1/2 text-right animate-fade-in-left">
+            <h1
+                class="font-heading text-4xl sm:text-5xl font-bold text-matte-gold mb-8 border-b-2 border-matte-gold/30 pb-4 inline-block">
+                {{ about.title }}
+            </h1>
+
+            <div class="font-amiri text-2xl text-gray-300 leading-relaxed mb-10 text-justify">
+                <p>
+                    {{ about.message }}
+                </p>
+            </div>
+
+            <div class="mb-12">
+                <h2 class="font-heading text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="w-1.5 h-6 bg-matte-gold rounded-full"></span>
+                    الأهداف
+                </h2>
+                <ul class="space-y-4 font-amiri text-xl text-gray-400">
+                    {% for objective in about.get_objectives_list %}
+                    <li
+                        class="flex items-center gap-4 border-r-2 border-matte-gold/20 pr-4 hover:border-matte-gold transition-colors py-2">
+                        <span>{{ objective }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Back to Home Button -->
+            <a href="{% url 'home' %}"
+                class="font-heading inline-flex items-center gap-3 px-8 py-3 bg-matte-gold text-dark-black rounded-sm text-lg font-bold hover:bg-light-gold transition-all shadow-lg hover:translate-y-[-2px]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>العودة للرئيسية</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    @keyframes fade-in-right {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fade-in-left {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .animate-fade-in-right {
+        animation: fade-in-right 1s ease-out forwards;
+    }
+
+    .animate-fade-in-left {
+        animation: fade-in-left 1s ease-out forwards;
+    }
+</style>
+{% endblock %}

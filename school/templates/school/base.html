@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المدرسة الغمارية</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Amiri & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'royal-black': '#121212',
+                        'matte-gold': '#C5A059',
+                        'light-gold': '#E5C789',
+                        'dark-black': '#0a0a0a',
+                    },
+                    fontFamily: {
+                        'amiri': ['Amiri', 'serif'],
+                        'cairo': ['Cairo', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 15px rgba(197, 160, 89, 0.3)',
+                        'gold-glow-hover': '0 0 25px rgba(229, 199, 137, 0.5)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #121212;
+            background-image: linear-gradient(to bottom, #121212, #1a1a1a);
+            color: #ecf0f1;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav
+        class="bg-royal-black/95 backdrop-blur-sm border-b border-white/5 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24">
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex-shrink-0 flex items-center gap-4 group">
+                        <!-- Logo -->
+                        {% load static %}
+                        <div
+                            class="relative w-16 h-16 rounded-full overflow-hidden border-2 border-matte-gold shadow-gold-glow group-hover:shadow-gold-glow-hover transition-all duration-300">
+                            <img src="{% static 'school/img/logo.jpg' %}" alt="شعار المدرسة الغمارية"
+                                class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex flex-col">
+                            <span
+                                class="font-heading font-bold text-2xl text-matte-gold tracking-wide group-hover:text-light-gold transition-colors">المدرسة
+                                الغمارية</span>
+                            <span class="text-xs text-gray-400 font-light tracking-wider">لإحياء العلوم</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="hidden sm:flex sm:items-center sm:gap-1">
+                    <a href="{% url 'books_list' %}"
+                        class="font-heading text-gray-300 hover:text-matte-gold px-4 py-2 text-lg font-medium transition-all duration-300 hover:bg-white/5 rounded-lg">الكتب</a>
+                    <a href="{% url 'lessons_list' %}"
+                        class="font-heading text-gray-300 hover:text-matte-gold px-4 py-2 text-lg font-medium transition-all duration-300 hover:bg-white/5 rounded-lg">الدروس</a>
+                    <a href="{% url 'about' %}"
+                        class="font-heading text-gray-300 hover:text-matte-gold px-4 py-2 text-lg font-medium transition-all duration-300 hover:bg-white/5 rounded-lg">عن
+                        المدرسة</a>
+
+                    <!-- Language Switcher -->
+                    {% load i18n %}
+                    <div class="relative group mr-4">
+                        <button
+                            class="flex items-center gap-2 px-4 py-2 text-matte-gold border border-matte-gold/30 rounded-lg hover:bg-matte-gold/10 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                            </svg>
+                            {% get_current_language as current_lang %}
+                            <span class="text-sm font-cairo">{{ current_lang|upper }}</span>
+                        </button>
+                        <div
+                            class="absolute left-0 mt-2 w-40 bg-dark-black border border-matte-gold/30 rounded-lg shadow-gold-glow opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <form action="/i18n/setlang/" method="post" class="p-1">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="{{ request.path }}">
+                                <button type="submit" name="language" value="ar"
+                                    class="w-full text-right px-4 py-2 text-gray-300 hover:bg-matte-gold/10 hover:text-matte-gold rounded transition-colors">العربية</button>
+                                <button type="submit" name="language" value="fr"
+                                    class="w-full text-right px-4 py-2 text-gray-300 hover:bg-matte-gold/10 hover:text-matte-gold rounded transition-colors">Français</button>
+                                <button type="submit" name="language" value="en"
+                                    class="w-full text-right px-4 py-2 text-gray-300 hover:bg-matte-gold/10 hover:text-matte-gold rounded transition-colors">English</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-matte-gold/20 text-gray-400 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="mb-6 flex justify-center">
+                <div
+                    class="w-12 h-12 rounded-full border border-matte-gold/30 flex items-center justify-center text-matte-gold font-bold text-xl opacity-50">
+                    غ</div>
+            </div>
+            <p class="text-lg font-light mb-2">© {% now "Y" %} المدرسة الغمارية لإحياء العلوم.</p>
+            <p class="text-sm opacity-60">جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

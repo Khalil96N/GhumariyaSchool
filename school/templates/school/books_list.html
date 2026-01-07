@@ -1,0 +1,61 @@
+{% extends 'school/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="font-heading text-4xl sm:text-5xl font-bold text-matte-gold mb-4">المكتبة الكاملة</h1>
+            <p class="text-gray-400 font-amiri text-xl">تصفح كافة المؤلفات والكتب المتوفرة في المدرسة الغمارية.</p>
+        </div>
+        <div class="text-sm text-gray-500 font-cairo">إجمالي الكتب: {{ books.count }}</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for book in books %}
+        <div
+            class="bg-dark-black rounded-lg border border-matte-gold/40 hover:border-matte-gold transition-colors duration-300 group flex flex-col h-full relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-matte-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+            </div>
+
+            <div class="h-56 bg-[#1a1a1a] flex items-center justify-center text-gray-600 relative overflow-hidden">
+                <svg class="w-20 h-20 text-gray-700 group-hover:text-matte-gold transition-colors duration-300"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                    </path>
+                </svg>
+                <div
+                    class="absolute top-4 right-4 bg-matte-gold text-dark-black text-xs font-bold px-3 py-1 rounded-sm">
+                    {{ book.category.name }}</div>
+            </div>
+            <div class="p-6 flex-grow flex flex-col">
+                <h3
+                    class="font-heading text-xl font-bold text-gray-100 mb-3 line-clamp-2 leading-relaxed group-hover:text-matte-gold transition-colors">
+                    {{ book.title }}</h3>
+                {% if book.investigator %}
+                <p class="text-gray-500 text-sm mb-6 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-matte-gold"></span>
+                    تحقيق: <span class="text-gray-300">{{ book.investigator }}</span>
+                </p>
+                {% endif %}
+
+                <div class="mt-auto">
+                    {% if book.pdf_file %}
+                    <a href="{{ book.pdf_file.url }}"
+                        class="block w-full text-center bg-matte-gold text-dark-black font-bold py-3 rounded-sm hover:bg-light-gold transition-colors shadow-lg"
+                        target="_blank">
+                        تحميل الكتاب
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-20 text-gray-600 bg-white/5 rounded-lg border border-white/5">
+            <p class="text-2xl font-amiri">المكتبة فارغة حالياً.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'school/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="mb-16 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h1 class="font-heading text-4xl sm:text-5xl font-bold text-matte-gold mb-4">كافة الدروس العلمية</h1>
+            <p class="text-gray-400 font-amiri text-xl">تابع الدروس المصورة والمحاضرات العلمية لشيوخ المدرسة.</p>
+        </div>
+        <div class="text-sm text-gray-500 font-cairo">إجمالي الدروس: {{ lessons.count }}</div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for lesson in lessons %}
+        <div
+            class="bg-dark-black rounded-lg border border-white/10 hover:border-matte-gold/50 transition-colors duration-300 group overflow-hidden">
+            <div class="relative h-56 bg-black">
+                <img src="https://img.youtube.com/vi/{{ lesson.video_id }}/mqdefault.jpg"
+                    onerror="this.src='https://via.placeholder.com/640x360?text=Video+Lesson'"
+                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div
+                        class="w-16 h-16 bg-matte-gold/90 rounded-full flex items-center justify-center pl-1 group-hover:scale-110 group-hover:bg-light-gold transition-all shadow-gold-glow cursor-pointer">
+                        <svg class="w-8 h-8 text-dark-black" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full overflow-hidden border border-matte-gold/30">
+                        {% if lesson.scholar.image %}
+                        <img src="{{ lesson.scholar.image.url }}" class="w-full h-full object-cover">
+                        {% else %}
+                        <div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500 text-xs">ش
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p class="text-xs text-matte-gold mb-0.5">الشيخ المحاضر</p>
+                        <span class="text-sm font-semibold text-gray-300">{{ lesson.scholar.name }}</span>
+                    </div>
+                </div>
+                <h3
+                    class="font-heading text-lg font-bold text-white mb-2 line-clamp-2 leading-relaxed group-hover:text-matte-gold transition-colors">
+                    <a href="{{ lesson.video_url }}" target="_blank" class="hover:underline">{{ lesson.title }}</a>
+                </h3>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-20 text-gray-600 bg-white/5 rounded-lg border border-white/5">
+            <p class="text-2xl font-amiri">لا توجد دروس مضافة بعد.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
