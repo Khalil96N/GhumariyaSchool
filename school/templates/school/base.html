@@ -81,7 +81,9 @@
                         </div>
                     </a>
                 </div>
-                <div class="hidden sm:flex sm:items-center sm:gap-1">
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex md:items-center md:gap-1">
                     <a href="{% url 'books_list' %}"
                         class="font-heading text-gray-300 hover:text-matte-gold px-4 py-2 text-lg font-medium transition-all duration-300 hover:bg-white/5 rounded-lg">الكتب</a>
                     <a href="{% url 'lessons_list' %}"
@@ -92,14 +94,14 @@
 
                     <!-- Language Switcher -->
                     {% load i18n %}
-                    <div class="relative group mr-4">
+                    {% get_current_language as current_lang %}
+                    <div class="relative group mr-4 z-50">
                         <button
                             class="flex items-center gap-2 px-4 py-2 text-matte-gold border border-matte-gold/30 rounded-lg hover:bg-matte-gold/10 transition-all">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                             </svg>
-                            {% get_current_language as current_lang %}
                             <span class="text-sm font-cairo">{{ current_lang|upper }}</span>
                         </button>
                         <div
@@ -115,6 +117,48 @@
                                     class="w-full text-right px-4 py-2 text-gray-300 hover:bg-matte-gold/10 hover:text-matte-gold rounded transition-colors">English</button>
                             </form>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" class="text-matte-gold hover:text-light-gold p-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 bg-royal-black/95 backdrop-blur-sm">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{% url 'books_list' %}"
+                    class="font-heading block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-matte-gold hover:bg-matte-gold/10">الكتب</a>
+                <a href="{% url 'lessons_list' %}"
+                    class="font-heading block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-matte-gold hover:bg-matte-gold/10">الدروس</a>
+                <a href="{% url 'about' %}"
+                    class="font-heading block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-matte-gold hover:bg-matte-gold/10">عن
+                    المدرسة</a>
+
+                <!-- Mobile Language Switcher -->
+                <div class="border-t border-white/10 mt-4 pt-4 px-3">
+                    <p class="text-sm text-gray-500 mb-2 font-cairo">اللغة</p>
+                    <div class="flex gap-4">
+                        <form action="/i18n/setlang/" method="post" class="flex gap-2">
+                            {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}">
+                            <button type="submit" name="language" value="ar"
+                                class="text-matte-gold hover:text-light-gold font-bold">AR</button>
+                            <span class="text-gray-600">|</span>
+                            <button type="submit" name="language" value="fr"
+                                class="text-gray-400 hover:text-light-gold font-bold">FR</button>
+                            <span class="text-gray-600">|</span>
+                            <button type="submit" name="language" value="en"
+                                class="text-gray-400 hover:text-light-gold font-bold">EN</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -140,6 +184,16 @@
         </div>
     </footer>
 
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
 </body>
 
 </html>
