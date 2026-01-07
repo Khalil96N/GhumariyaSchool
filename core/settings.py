@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-cai4oncxkw)=p*)!%+bzcs^mk3#&aulh52qv$ff09*xy-%pr0t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # السماح لأي نطاق مبدئياً لتسهيل الاستضافة
+
+# ... (rest of settings)
+
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # مسار تجميع الملفات الثابتة
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Application definition
